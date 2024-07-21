@@ -24,7 +24,7 @@ const App = () => {
     <div className="todo-container">
     <div className="todo-title">Todo List</div>
     <TodoNew
-    addnewtodo = {AddnewTodo}
+    //addnewtodo = {AddnewTodo}
 
     />
     <Tododata
