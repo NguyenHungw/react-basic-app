@@ -13,7 +13,7 @@ module.exports = {
   settings: { react: { version: '18.2' } },
   plugins: ['react-refresh'],
   rules: {
-    "react/prop-types": "off",
+    "react/prop-types": "on",
 
     "react/forbid-prop-types": 0,
 
