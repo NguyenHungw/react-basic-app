@@ -8,19 +8,19 @@ const App = () => {
 
   
   const [TodoList,setTodoList] = useState([
-    {id:1 , name :"Learning React"},
-    { id:2 , name :"Watching Youtube"}
+    // {id:1 , name :"Learning React"},
+    // { id:2 , name :"Watching Youtube"}
   ])
 
-  const hoidanit = "Eric"
-  const age = 25;
-  const data = {
-    address: "Hanoi",
-    country: "Vn"
+  // const hoidanit = "Eric"
+  // const age = 25;
+  // const data = {
+  //   address: "Hanoi",
+  //   country: "Vn"
 
 
    
-  }
+  // }
   const AddnewTodo = (name) =>{
     //alert(`call me ${name} `)
     //setTodoList(name);
@@ -49,9 +49,9 @@ const App = () => {
 
     />
     <Tododata
-      name={hoidanit}
-      age={age}
-      data ={data}
+      // name={hoidanit}
+      // age={age}
+      // data ={data}
       todoList = {TodoList}
       
     />
