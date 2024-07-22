@@ -18,8 +18,6 @@ const App = () => {
   //   address: "Hanoi",
   //   country: "Vn"
 
-
-   
   // }
   const AddnewTodo = (name) =>{
     //alert(`call me ${name} `)
@@ -30,6 +28,12 @@ const App = () => {
     }
     setTodoList([...TodoList, newTodo])
   
+  }
+  const DeleteTodo = (id) =>{
+
+    const removeByid = TodoList.filter((item) => item.id !==id)
+    //console.log(id)
+    setTodoList(removeByid)
   }
 
   const randomIntFromInterval = (min, max) => { // min and max included
@@ -63,6 +67,9 @@ const App = () => {
     {TodoList.length >0 ? 
       <Tododata
       todoList = {TodoList}
+      DeleteTodo = {DeleteTodo}
+        //  handleDelete = {handleDelete}
+
     />
     :
   
