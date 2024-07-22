@@ -9,6 +9,7 @@ const Tododata = (props) => {
     // const data = props.data;
 
     
+    console.log(props.todoList)
     //console.log("check props",props)
     return (
         <div className='todo-data'>
