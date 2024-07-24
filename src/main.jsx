@@ -16,6 +16,17 @@ import ProductsPage from './pages/products.jsx';
   {
   path: "/",
   element:  <App />,
+  children: [
+    {
+      path: "/users",
+      element:  <UsersPage/>,
+    },
+    {
+      path: "/products",
+      element:  <ProductsPage/>,
+    },
+
+  ]
   },
   {
     path: "/login",
@@ -24,15 +35,8 @@ import ProductsPage from './pages/products.jsx';
   {
     path: "/register",
     element:  <RegisterPage/>,
-  },
-  {
-    path: "/users",
-    element:  <UsersPage/>,
-  },
-  {
-    path: "/products",
-    element:  <ProductsPage/>,
-  },
+  }
+  
   
  ]);
 
