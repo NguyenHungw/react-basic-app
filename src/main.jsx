@@ -2,10 +2,15 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 // import './index.css'
+import './styles/global.css'
 import {
   createBrowserRouter,
   RouterProvider,
  } from "react-router-dom";
+import LoginPage from './pages/login.jsx';
+import RegisterPage from './pages/register.jsx';
+import UsersPage from './pages/users.jsx';
+import ProductsPage from './pages/products.jsx';
 
  const router = createBrowserRouter([
   {
@@ -14,19 +19,19 @@ import {
   },
   {
     path: "/login",
-    element:  <div>login</div>,
+    element:  <LoginPage/>,
   },
   {
     path: "/register",
-    element:  <div>register</div>,
+    element:  <RegisterPage/>,
   },
   {
     path: "/users",
-    element:  <div>users</div>,
+    element:  <UsersPage/>,
   },
   {
     path: "/products",
-    element:  <div>products</div>,
+    element:  <ProductsPage/>,
   },
   
  ]);
