@@ -24,7 +24,7 @@ import ProductsPage from './pages/products.jsx';
     {
       path: "/products",
       element:  <ProductsPage/>,
-    },
+    }
 
   ]
   },
