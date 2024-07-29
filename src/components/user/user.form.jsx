@@ -12,10 +12,17 @@ const UserForm = () => {
     const HandleClickBtn = async () => {
         const res = await createUserAPI(fullName,email,password,phone)
         //nếu res.data có tồn tại thì chạy tiếp res.data.data
-        if(res.data ){
+        if(res.data){
+            console.log("check res data>>",res.data)
             notification.success({
                 message:"Create user",
                 description:"Tạo user thành công"
+            })
+        }else{
+            
+            notification.error({
+                message:"Error Create User",
+                description: JSON.stringify(res.message)
             })
         }
        
