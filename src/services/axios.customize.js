@@ -3,7 +3,7 @@ import axios from "axios";
 
 //
 const instance = axios.create({
-    baseURL: 'http://localhost:8080'
+    baseURL:  import.meta.env.VITE_BACKEND_URL
   });
   
   // Alter defaults after instance has been created
@@ -15,14 +15,16 @@ const instance = axios.create({
     return config;
   }, function (error) {
     // Do something with request error
-    return Promise.reject(error);
+    
+    //if(error.response&& error.response.data)
+    return Promise.reject(error); //neu dung cai nay voi aycn await thi phai su dung try catch moi bat dc res.error.data
   });
 
 // Add a response interceptor
 instance.interceptors.response.use(function (response) {
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
-    if(response.data && response.data.data) return response.data;
+    if(response.data && error.response.data) return error.response.data;
     return response;
   }, function (error) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
