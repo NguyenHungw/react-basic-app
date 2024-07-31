@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
   
 const UserTable = () => {
   const[dataUsers,setDataUsers] = useState([
-    {_id:'1',fullName:'hung',email:'nguyentienhung@'}
+   
   ]);
   useEffect(()=>{
     console.log('run userEffect 111')
