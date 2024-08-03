@@ -1,10 +1,13 @@
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { Space, Table, Tag } from 'antd';
+import UpdateUserModal from './update.user.modal'
+import { useState } from 'react';
 
 
 
 const UserTable = (props) => {
   const { dataUsers } = props
+   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
 
   const columns = [
     {
@@ -38,67 +41,32 @@ const UserTable = (props) => {
       key: 'action',
       render: (_, record) => (
         <>
-          <div style={{display:"flex",gap:"20px"}}>
-            <EditOutlined style={{cursor:"pointer", color:"orange"}}/>
-            <DeleteOutlined style={{cursor:"pointer", color:"red"}}/> 
+          <div style={{ display: "flex", gap: "20px" }}>
+            <EditOutlined onClick={()=>setIsUpdateModalOpen(true)} style={{ cursor: "pointer", color: "orange" }} />
+            <DeleteOutlined style={{ cursor: "pointer", color: "red" }} />
           </div>
         </>
 
       ),
     }
 
-
-    // {
-    //   title: 'isActive',
-    //   dataIndex: 'isActive',
-    // },
-    // {
-    //   title: 'phone',
-    //   dataIndex: 'phone',
-    // },
-    // {
-    //   title: 'role',
-    //   dataIndex: 'role',
-    // },
-    // {
-    //   title: 'updatedAt',
-    //   dataIndex: 'updatedAt',
-    // },
-    // {
-    //   title: 'Address',
-    //   dataIndex: 'address',
-    // }
-
   ]
-  // const data = [
-  //   {
-  //     key: '1',
-  //     name: 'John Brown',
-  //     age: 32,
-  //     address: 'New York No. 1 Lake Park',
-  //     tags: ['nice', 'developer'],
-  //   },
-  //   {
-  //     key: '2',
-  //     name: 'Jim Green',
-  //     age: 42,
-  //     address: 'London No. 1 Lake Park',
-  //     tags: ['loser'],
-  //   },
-  //   {
-  //     key: '3',
-  //     name: 'Joe Black',
-  //     age: 32,
-  //     address: 'Sydney No. 1 Lake Park',
-  //     tags: ['cool', 'teacher'],
-  //   },
-  // ];
 
-
-  //console.log('run render 000')
   return (
+    <>
+    
+    <Table
+      columns={columns}
+      dataSource={dataUsers}
+      rowKey={"_id"}
+    />
+    <UpdateUserModal
+    isUpdateModalOpen = {isUpdateModalOpen}
+    setIsUpdateModalOpen = {setIsUpdateModalOpen}
+    />
+    
 
-    <Table columns={columns} dataSource={dataUsers} rowKey={"_id"} />
+    </>
 
   )
 }

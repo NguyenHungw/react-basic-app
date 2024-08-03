@@ -1,24 +1,58 @@
 import { useState } from "react";
 import { Button, Input, notification, Modal } from "antd"
 
-const updateUserModal = () => {
-    const [fullName, setName] = useStateate("");
+const UpdateUserModal = (props) => {
+    const [fullName, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [phone, setPhone] = useState("");
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    // const [isModalOpen, setIsModalOpen] = useState(true);
+//const [isUpdateModalOpen,setUpdateIsModalOpen] = useState(false)
+  const {isUpdateModalOpen, setIsUpdateModalOpen} = props
+
+const resetAndCloseModal = () =>{
+    setUpdateIsModalOpen(false);
+    setName("");
+    setEmail("");
+    setPassword("");
+    setPhone("");
+}
+
+const HandleSubmitBtn = async () => {
+
+    // hứng response trả về từ api 
+    const res = await createUserAPI(fullName, email, password, phone)
+    //nếu res.data có tồn tại thì chạy tiếp res.data.data
+    if (res.data) {
+        //console.log("check res data>>",res.data)
+        notification.success({
+            message: "Update user",
+            description: "Cập nhật user thành công"
+        })
+        resetAndCloseModal()
+        await loadUser()
+
+    } else {
+
+        notification.error({
+            message: "Error Create User",
+            description: JSON.stringify(res.message)
+        })
+    }
+
+
+    //console.log("check res",res.data)  
+}
 
     return (
         <Modal
-            title="Create User"
-            open={isModalOpen}
+            title="Update"
+            open={isUpdateModalOpen}
             onOk={() => HandleSubmitBtn()}
-            onCancel={() => setIsModalOpen(false)}
+            onCancel={() => setIsUpdateModalOpen(false)}
             maskClosable={false}
-            okText={"CREATE"}
-
+            okText={"Upload"}
         >
-
             <div>
                 <span>FullName</span>
                 <Input
@@ -51,4 +85,4 @@ const updateUserModal = () => {
         </Modal>
     )
 }
-export default updateUserModal
+export default UpdateUserModal
