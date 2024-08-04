@@ -41,13 +41,7 @@ const UserForm = () => {
 
 
         //console.log("check res",res.data)  
-    }
-  
-       
-
-
-
-
+      }
 return (
 
     <div className="user-form" style={{ margin: "20px 0" }}  >
