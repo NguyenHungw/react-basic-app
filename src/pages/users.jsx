@@ -9,6 +9,7 @@ const UsersPage = () => {
     //   console.log('run userEffect 111')
     loadUser();
   }, []);
+
   const loadUser = async () => {
     //console.log("load user START>>")
     const res = await fetchAllUserAPI();

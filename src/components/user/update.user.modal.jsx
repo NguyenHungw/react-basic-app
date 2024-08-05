@@ -24,7 +24,7 @@ const UpdateUserModal = (props) => {
         //neu bien dataUpdate thay doi gia tri thi useEff tu dong chayj lai, neu ko co thi chi chay 1 lan
     },[dataUpdate])
 
-  console.log(dataUpdate);
+  //console.log(dataUpdate);
   const resetAndCloseModal = () => {
     setIsUpdateModalOpen(false);
     setName("");
