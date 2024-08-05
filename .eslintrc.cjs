@@ -13,14 +13,15 @@ module.exports = {
   settings: { react: { version: '18.2' } },
   plugins: ['react-refresh'],
   rules: {
-    "react/prop-types": "on",
+    "react/prop-types": "off",
 
-    "react/forbid-prop-types": 0,
+    "no-unused-vars":"off",
+    //"react/forbid-prop-types": 0,
 
-    'react/jsx-no-target-blank': 'off',
-    'react-refresh/only-export-components': [
-      'warn',
-      { allowConstantExport: true },
-    ],
+    //'react/jsx-no-target-blank': 'off',
+    // 'react-refresh/only-export-components': [
+    //   'warn',
+     // { allowConstantExport: true },
+    // ],
   },
 }

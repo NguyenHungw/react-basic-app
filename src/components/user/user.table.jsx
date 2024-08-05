@@ -1,9 +1,9 @@
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { Button, Popconfirm, Space, Table, Tag } from "antd";
+import { Button, notification, Popconfirm, Space, Table, Tag } from "antd";
 import UpdateUserModal from "./update.user.modal";
 import { useState } from "react";
 import ViewUserDetail from "./view.user.detail";
-import { deleteUserAPI } from "../../services/api.service";
+import { createUserAPI,deleteUserAPI } from "../../services/api.service";
 
 const UserTable = (props) => {
  
@@ -28,38 +28,7 @@ const UserTable = (props) => {
    // loadUser();
   };
 
-  const HandleDelete = async (id) => {
-
-    // hứng response trả về từ api 
-    const res = await deleteUserAPI(id)
-    //nếu res.data có tồn tại thì chạy tiếp res.data.data
-   // console.log("check res data>",res.data)
-   console.log("check res>>>>",res)
-    if (res.data) {
-      //console.log("check res data>>",res.data)
-      console.log("xoa thanh cong")
-      notification.success({
-        message: "Delete User",
-        description: "Xóa user thành công"
-      })
-      console.log("check restData", res.data)
-      //resetAndCloseModal();
-      await loadUser();
-   
-
-    } else {
-     // console.log("ko xoa dc")
-
-
-      notification.error({
-        message: "Error Delete User",
-        description: JSON.stringify(res.message)
-      })
-    }
-
-
-    //console.log("check res",res.data)  
-  }
+  
 
   const columns = [
     {
@@ -102,10 +71,11 @@ const UserTable = (props) => {
               style={{ cursor: "pointer", color: "orange" }}
             />
             <Popconfirm
+            placement="left"
               title="Delete the task"
               description="Are you sure to delete this task?"
               onConfirm={() => { HandleDelete(record._id) }}
-              onCancel={cancel}
+              //onCancel={cancel}
               okText="Yes"
               cancelText="No"
             >
@@ -117,7 +87,31 @@ const UserTable = (props) => {
       ),
     },
   ];
+  const HandleDelete = async (id) => {
 
+    const res = await deleteUserAPI(id)
+   console.log("check res>>>>",res)
+    if (res.data) {
+      console.log("xoa thanh cong")
+      notification.success({
+        message: "Delete User",
+        description: "Xóa user thành công"
+      })
+      console.log("check restData", res.data)
+      //resetAndCloseModal();
+      await loadUser();
+   
+
+    } else {
+      notification.error({
+        message: "Error Delete User",
+        description: JSON.stringify(res.message)
+      })
+    }
+
+
+    //console.log("check res",res.data)  
+  }
   return (
     <>
       <Table columns={columns} dataSource={dataUsers} rowKey={"_id"} />
