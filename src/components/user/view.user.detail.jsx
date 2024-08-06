@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Button, Drawer } from "antd";
+import { handleUploadFile } from "../../services/api.service";
+
 const ViewUserDetail = (props) => {
   const {
     openDetailUser,
@@ -8,11 +10,33 @@ const ViewUserDetail = (props) => {
     dataDetailUser,
   } = props;
   //console.log("check props>>", props)
-
+  const [selectedFile, setSelectedFile] = useState(null)
+  const [preview, setPreview] = useState(null)
   const onClose = () => {
     setOpenDetailUser(false);
   };
+  const handleOnchangUpload = (event) => {
+    //kiem tra neu ko upload file
+    if (!event.target.files || event.target.files.length === 0) {
+      //setSelectedFile(undefined)
+      setSelectedFile(null)
+      setPreview(null)
+      return
+    }
 
+    // I've kept this example simple by using the first image instead of multiple
+    const file = event.target.files[0]
+    if (file) {
+      setSelectedFile(file)
+      setPreview(URL.createObjectURL(file))
+    }
+  }
+  console.log("check file>>>", preview)
+
+  const handleUpdateUserAvatar = async() => {
+    const resUpdate = await handleUploadFile(selectedFile,"avatar") //avatar o day la ten folder chua anh ten la avatar trong thu muc share
+    
+  }
   // console.log("check data detail user>>", dataDetailUser)
   return (
     <>
@@ -24,7 +48,7 @@ const ViewUserDetail = (props) => {
           setOpenDetailUser(false);
         }}
         open={openDetailUser}
-        // open={showDrawer}
+      // open={showDrawer}
       >
         {dataDetailUser ? (
           <>
@@ -32,29 +56,57 @@ const ViewUserDetail = (props) => {
             <p>Fullname: {dataDetailUser.fullName}</p>
             <p>Email: {dataDetailUser.email} </p>
             <p>Phone: {dataDetailUser.phone}</p>
-            <div>
-              <img
-                height={250}
-                width={300}
+            <div style={{
+              marginTop: "10px",
+              height: "100px", width: "150px",
+              border: "1px solid #ccc"
+            }}>
+              <img style={{ height: "100%", width: "100%", objectFit: "contain" }}
+
                 src={`${import.meta.env.VITE_BACKEND_URL}/images/avatar/${dataDetailUser.avatar}`}
               ></img>
             </div>
             <label htmlFor="btnUpload"
-            style={
-              {display:"block",
-              width:"fit-content",
-              marginTop:"15px",
-              padding:"5px 10px",
-              background:"orange",
-              borderRadius:"5px",
-              cursor:"pointer"
+              style={
+                {
+                  display: "block",
+                  width: "fit-content",
+                  marginTop: "15px",
+                  padding: "5px 10px",
+                  background: "orange",
+                  borderRadius: "5px",
+                  cursor: "pointer"
+
+                }
 
               }
-            
-            }
             >Upload file</label>
-            <input type="file" hidden id="btnUpload"></input>
+            <input type="file" hidden id="btnUpload"
+              // onChange={handleOnchangUpload}
+              onChange={(event) => { handleOnchangUpload(event) }}
+
+            ></input>
             {/* <Button type="primary">Upload avatar</Button> */}
+            {/* neu co hinh anh preview thi moi in ra cai div nay */}
+            {preview &&
+              <>
+                <div style={{
+                  marginTop: "10px",
+                  height: "100px", width: "150px",
+                  border: "1px solid #ccc"
+                }}>
+                  <img style={{ height: "100%", width: "100%", objectFit: "contain" }}
+
+                    src={preview}
+                  ></img>
+                </div>
+                <Button
+                  type="primary"
+                  onClick={handleUpdateUserAvatar}
+                >Save</Button>
+              </>
+
+            }
           </>
         ) : (
           <>

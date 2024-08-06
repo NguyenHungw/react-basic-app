@@ -11,22 +11,9 @@ const UserTable = (props) => {
   const [dataUpdate, setDataUpdate] = useState(null);
   const [openDetailUser, setOpenDetailUser] = useState(false);
   const [dataDetailUser, setDataDetailUser] = useState(null);
-  // const {loadUser} = props
-  // const {dataUsers} = props
+
   const {loadUser,dataUsers} = props
-  // console.log("check datauser",dataUsers)
-  // console.log("check loadUser",loadUser)
 
-
-  // const confirm = (e) => {
-  //   console.log(e);
-  //   message.success('Click on Yes');
-  // };
-  const cancel = (e) => {
-    console.log(e);
-    message.error('Click on No');
-   // loadUser();
-  };
 
   
 
