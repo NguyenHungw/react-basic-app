@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Button, Drawer } from "antd";
-import { handleUploadFile } from "../../services/api.service";
+import { Button, Drawer, notification } from "antd";
+import { handleUploadFile, updateUserAvatarAPI } from "../../services/api.service";
 
 const ViewUserDetail = (props) => {
   const {
@@ -8,13 +8,12 @@ const ViewUserDetail = (props) => {
     setOpenDetailUser,
     setDataDetailUser,
     dataDetailUser,
+    loadUser
   } = props;
   //console.log("check props>>", props)
   const [selectedFile, setSelectedFile] = useState(null)
   const [preview, setPreview] = useState(null)
-  const onClose = () => {
-    setOpenDetailUser(false);
-  };
+
   const handleOnchangUpload = (event) => {
     //kiem tra neu ko upload file
     if (!event.target.files || event.target.files.length === 0) {
@@ -33,11 +32,43 @@ const ViewUserDetail = (props) => {
   }
   console.log("check file>>>", preview)
 
-  const handleUpdateUserAvatar = async() => {
-    const resUpdate = await handleUploadFile(selectedFile,"avatar") //avatar o day la ten folder chua anh ten la avatar trong thu muc share
-    
+  const handleUpdateUserAvatar = async () => {
+    const resUpload = await handleUploadFile(selectedFile, "avatar") //avatar o day la ten folder chua anh ten la avatar trong thu muc share
+    console.log("check resUpload", resUpload)
+
+    if (resUpload.data) {
+      //success
+
+      // console.log("check resUploaddata", resUpload.data)
+      const newAvatar = resUpload.data.fileUploaded
+      //step 2 update user
+      const resUpdateAvatar = await updateUserAvatarAPI(newAvatar,dataDetailUser._id,dataDetailUser.fullName,dataDetailUser.phone )
+      if (resUpdateAvatar.data) {
+        setSelectedFile(null)
+        setPreview(null)
+        setOpenDetailUser(false)
+        await loadUser()
+
+        notification.success({
+          message: "Updated user avatar",
+          description: "cập nhật avatar thành công"
+        })
+      } else {
+        notification.error({
+          message: "Error Upload file",
+          description: JSON.stringify(resUpdateAvatar.message)
+        })
+      }
+
+    } else {
+      notification.error({
+        message: "Error Upload file",
+        description: JSON.stringify(resUpload.message)
+      })
+    }
+
   }
-  // console.log("check data detail user>>", dataDetailUser)
+
   return (
     <>
       <Drawer

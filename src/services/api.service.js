@@ -33,8 +33,8 @@ const deleteUserAPI = (id) => {
     return axios.delete(URL_BACKEND)
 }
 const handleUploadFile = (file, folder) => {
-    const URL_BACKEND = `/file/upload`;
-    
+    const URL_BACKEND = `/api/v1/file/upload`;
+
 
     let config = {
         headers: {
@@ -46,11 +46,21 @@ const handleUploadFile = (file, folder) => {
     }
     const bodyFormData = new FormData();
     //ten bien fileImg giong trong phan body cua api
-    bodyFormData.append("fileImg",file)
+    bodyFormData.append("fileImg", file)
 
     return axios.post(URL_BACKEND, bodyFormData, config)
 }
+const updateUserAvatarAPI = (avatar,_id,fullName,phone ) => {
+    const URL_BACKEND = "/api/v1/user";
+    const data = {
+        _id: _id,
+        avatar: avatar,
+        fullName: fullName,
+        phone: phone
+    }
+    return axios.put(URL_BACKEND, data)
+}
 
 export {
-    createUserAPI, updateUserAPI, fetchAllUserAPI, deleteUserAPI,handleUploadFile
+    createUserAPI, updateUserAPI, fetchAllUserAPI, deleteUserAPI, handleUploadFile, updateUserAvatarAPI
 }
