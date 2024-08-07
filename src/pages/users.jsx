@@ -14,7 +14,7 @@ const UsersPage = () => {
     //console.log("load user START>>")
     const res = await fetchAllUserAPI();
     //console.log("ENDD>>",res.data)
-    setDataUsers(res.data);
+    setDataUsers(res.data.result);
   };
   return (
     <div style={{ padding: "20px" }}>

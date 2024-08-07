@@ -3,28 +3,30 @@ import { Button, notification, Popconfirm, Space, Table, Tag } from "antd";
 import UpdateUserModal from "./update.user.modal";
 import { useState } from "react";
 import ViewUserDetail from "./view.user.detail";
-import { createUserAPI,deleteUserAPI } from "../../services/api.service";
+import { createUserAPI, deleteUserAPI } from "../../services/api.service";
 
 const UserTable = (props) => {
- 
+
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [dataUpdate, setDataUpdate] = useState(null);
   const [openDetailUser, setOpenDetailUser] = useState(false);
   const [dataDetailUser, setDataDetailUser] = useState(null);
 
-  const {loadUser,dataUsers} = props
+  const { loadUser, dataUsers } = props
 
 
-  
+
 
   const columns = [
     {
       title: "STT",
-      render: (_, index) => {
+      render: (_,record, index) => {
         return (
-          <>
-          {index+1}
-          </>
+          <div>
+            {index + 1}
+          </div>
+
+
         );
       }
     },
@@ -68,7 +70,7 @@ const UserTable = (props) => {
               style={{ cursor: "pointer", color: "orange" }}
             />
             <Popconfirm
-            placement="left"
+              placement="left"
               title="Delete the task"
               description="Are you sure to delete this task?"
               onConfirm={() => { HandleDelete(record._id) }}
@@ -87,7 +89,7 @@ const UserTable = (props) => {
   const HandleDelete = async (id) => {
 
     const res = await deleteUserAPI(id)
-   console.log("check res>>>>",res)
+    console.log("check res>>>>", res)
     if (res.data) {
       console.log("xoa thanh cong")
       notification.success({
@@ -97,7 +99,7 @@ const UserTable = (props) => {
       console.log("check restData", res.data)
       //resetAndCloseModal();
       await loadUser();
-   
+
 
     } else {
       notification.error({
@@ -111,7 +113,21 @@ const UserTable = (props) => {
   }
   return (
     <>
-      <Table columns={columns} dataSource={dataUsers} rowKey={"_id"} />
+      <Table
+        columns={columns}
+        dataSource={dataUsers}
+        rowKey={"_id"}
+        pagination={
+          {
+            current: 1,
+            pageSize: 5,
+            showSizeChanger: true,
+            total: 99,
+            showTotal: (total, range) => { return (<div> {range[0]}-{range[1]} trên {total} rows</div>) }
+          }
+        }
+
+      />
       <UpdateUserModal
         isUpdateModalOpen={isUpdateModalOpen}
         setIsUpdateModalOpen={setIsUpdateModalOpen}
@@ -124,7 +140,7 @@ const UserTable = (props) => {
         setOpenDetailUser={setOpenDetailUser}
         dataDetailUser={dataDetailUser}
         setDataDetailUser={setDataDetailUser}
-        loadUser = {loadUser}
+        loadUser={loadUser}
       />
 
     </>
