@@ -13,11 +13,11 @@ const Tododata = (props) => {
          
     
     return (
-        <div className='todo-data'  >
+        <div className='todo-data'>
           {todoList.map( (item,index) => {
             console.log("check map >>", item,index)
             return(
-            <div>
+            <div key={index}>
               {/* key = {index} cach 1 */}
               <div className={`todo-item `} key={item.index}  >
               {/* <div className={"todo-item"}  > */}
@@ -28,11 +28,6 @@ const Tododata = (props) => {
                </div>
             )
           } )}
-        {/* <div>My name is {name}</div> */}
-     
-        {/* <div>
-          {JSON.stringify(props.todoList)}
-        </div> */}
       </div>
     )
 }

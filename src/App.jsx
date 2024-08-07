@@ -1,28 +1,19 @@
+import "./components/todo/todo.css";
 
-import './components/todo/todo.css'
-
-import Header from './components/layout/header'
-import Footer from './components/layout/footer'
-import { Outlet } from 'react-router-dom'
-
+import Header from "./components/layout/header";
+import Footer from "./components/layout/footer";
+import { Outlet } from "react-router-dom";
 
 const App = () => {
-
-  
-
- 
-//{key:value}
+  //{key:value}
   return (
-<>
-<Header/>
+    <>
+      <Header />
 
-    <Outlet/>
-    <Footer/>
-</>
-   
-    
-   
-  )
-}
+      <Outlet />
+      <Footer />
+    </>
+  );
+};
 
-export default App
+export default App;
