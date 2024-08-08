@@ -15,7 +15,7 @@ const UsersPage = () => {
   useEffect(() => {
     //   console.log('run userEffect 111')
     loadUser();
-  }, [current]); 
+  }, [current,pageSize]); 
 
   const loadUser = async () => {
     //console.log("load user START>>")
@@ -29,7 +29,7 @@ const UsersPage = () => {
     }
     //console.log("ENDD>>",res.data)
   };
-  console.log("current",current)
+  console.log("check current pagesize",pageSize)
   return (
     <div style={{ padding: "20px" }}>
       <UserForm loadUser={loadUser} />

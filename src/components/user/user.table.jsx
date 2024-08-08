@@ -12,20 +12,25 @@ const UserTable = (props) => {
   const [openDetailUser, setOpenDetailUser] = useState(false);
   const [dataDetailUser, setDataDetailUser] = useState(null);
 
-  const { loadUser, dataUsers, current, total, pageSize,setPageSize,setCurrent } = props
+  const { loadUser, dataUsers, current, total, pageSize, setPageSize, setCurrent } = props
 
 
   const onChange = (pagination, filters, sorter, extra) => {
     //setCurrent ,setPageSize
     //nếu thay đổi trang Current 
-    if(pagination && pagination.current){
-      if(pagination.current !== current){ //current la gia tri page hien tai react dang luu
-        setCurrent(pagination.current)
+    if (pagination && pagination.current) {
+      if (+pagination.current !== +current) { //current la gia tri page hien tai react dang luu
+        setCurrent(+pagination.current) //"5" =>5
       }
     }
-    console.log("check onchange",{pagination, filters, sorter, extra})
+    if (pagination && pagination.pageSize) {
+      if (+pagination.pageSize !== +current) { //current la gia tri page hien tai react dang luu
+        setPageSize(+pagination.pageSize) //"5" =>5
+      }
+    }
+    console.log("check onchange", { pagination, filters, sorter, extra })
 
-   };
+  };
 
 
   const columns = [
@@ -34,7 +39,11 @@ const UserTable = (props) => {
       render: (_, record, index) => {
         return (
           <div>
-            {index + 1}
+            {/* từ trang thứ 2 cộng thêm vào tổng số phần tử tại trang thứ nhất  */}
+            {/* trang 1 + trang 2 - 1 * page siz = 5 */}
+            {/* (0+1) + (2-1) * 5 */}
+            
+            {(index + 1) + (current - 1) * pageSize}
           </div>
 
 
@@ -135,9 +144,9 @@ const UserTable = (props) => {
             showSizeChanger: true,
             total: total,
             showTotal: (total, range) => { return (<div> {range[0]}-{range[1]} trên {total} rows</div>) }
-            
+
           }
-          
+
         }
         onChange={onChange}
 
