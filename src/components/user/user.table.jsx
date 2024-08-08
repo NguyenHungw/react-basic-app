@@ -12,11 +12,19 @@ const UserTable = (props) => {
   const [openDetailUser, setOpenDetailUser] = useState(false);
   const [dataDetailUser, setDataDetailUser] = useState(null);
 
-  const { loadUser, dataUsers, current, total, pageSize } = props
+  const { loadUser, dataUsers, current, total, pageSize,setPageSize,setCurrent } = props
 
 
   const onChange = (pagination, filters, sorter, extra) => {
+    //setCurrent ,setPageSize
+    //nếu thay đổi trang Current 
+    if(pagination && pagination.current){
+      if(pagination.current !== current){ //current la gia tri page hien tai react dang luu
+        setCurrent(pagination.current)
+      }
+    }
     console.log("check onchange",{pagination, filters, sorter, extra})
+
    };
 
 

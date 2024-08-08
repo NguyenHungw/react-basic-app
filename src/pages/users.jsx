@@ -9,10 +9,13 @@ const UsersPage = () => {
   const [current,setCurrent] = useState(1);
   const [pageSize,setPageSize] = useState(5);
   const [total,setTotal] = useState(0);
+
+  // [] run once
+  // [current] == NextdataCurrent !== previousDataCurrent  = always run
   useEffect(() => {
     //   console.log('run userEffect 111')
     loadUser();
-  }, []);
+  }, [current]); 
 
   const loadUser = async () => {
     //console.log("load user START>>")
@@ -26,6 +29,7 @@ const UsersPage = () => {
     }
     //console.log("ENDD>>",res.data)
   };
+  console.log("current",current)
   return (
     <div style={{ padding: "20px" }}>
       <UserForm loadUser={loadUser} />
