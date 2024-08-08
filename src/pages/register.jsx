@@ -1,4 +1,4 @@
-import { Form, Button, Input, notification } from "antd"
+import { Form, Button, Input, notification, Row, Col } from "antd"
 import { registerUserAPI } from "../services/api.service";
 import { json, useNavigate } from "react-router-dom";
 
@@ -38,84 +38,110 @@ const RegisterPage = () => {
             // onFinishFailed={onFinishFailed}
             autoComplete="off"
         >
-            <div style={{
 
-                margin: "50px",
+            <Row justify={"center"}>
 
-            }}>
-                <Form.Item
-                    label="Username"
-                    name="username"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Please input your username!',
-                        },
-                    ]}
-                >
-                    <Input />
-                </Form.Item>
-                <Form.Item
-                    label="FullName"
-                    name="fullName"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Please input your FullName!',
-                        },
-                    ]}
-                >
-                    <Input />
-                </Form.Item>
-                <Form.Item
-                    label="Email"
-                    name="email"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Please input your Email!',
-                        },
-                    ]}
-                >
-                    <Input />
-                </Form.Item>
-                <Form.Item
-                    label="Password"
-                    name="password"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Please input your Password!',
-                        },
-                    ]}
-                >
-                    <Input.Password />
-                </Form.Item>
-                <Form.Item
-                    label="PhoneNumber"
-                    name="phone"
-                    rules={[
-                        {
-                            required: true,
-                            pattern: new RegExp(/\d+/g),
-                            message: "Wrong format!"
-                        },
-                    ]}
-                >
-                    <Input />
-                </Form.Item>
 
-                {/* <button type="submit" >Register</button> */}
+
+                <Col xs={24} md={6}>
+                    <Form.Item
+                        label="Username"
+                        name="username"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please input your username!',
+                            },
+                        ]}
+                    >
+                        <Input />
+                    </Form.Item>
+                </Col>
+            </Row>
+            <Row justify={"center"}>
+
+                <Col xs={24} md={6}>
+                    <Form.Item
+                        label="FullName"
+                        name="fullName"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please input your FullName!',
+                            },
+                        ]}
+                    >
+                        <Input />
+                    </Form.Item>
+                </Col>
+            </Row>
+            <Row justify={"center"}>
+
+                <Col xs={24} md={6}>
+
+                    <Form.Item
+                        label="Email"
+                        name="email"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please input your Email!',
+                            },
+                        ]}
+                    >
+                        <Input />
+                    </Form.Item>
+                </Col>
+            </Row>
+            <Row justify={"center"}>
+
+                <Col xs={24} md={6}>
+
+                    <Form.Item
+                        label="Password"
+                        name="password"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please input your Password!',
+                            },
+                        ]}
+                    >
+                        <Input.Password />
+                    </Form.Item>
+                </Col>
+            </Row>
+            <Row justify={"center"}>
+
+                <Col xs={24} md={6}>
+                    <Form.Item
+                        label="PhoneNumber"
+                        name="phone"
+                        rules={[
+                            {
+                                required: true,
+                                pattern: new RegExp(/\d+/g),
+                                message: "Wrong format!"
+                            },
+                        ]}
+                    >
+                        <Input />
+                    </Form.Item>
+                </Col>
+            </Row>
+
+            {/* <button type="submit" >Register</button> */}
+            <Row justify={"center"}>
 
                 <Button onClick={() => { form.submit() }} type="primary">register</Button>
-
-                {/* lay gia tri ma k can phai submit form */}
-                {/* set */}
-                {/* <Button onClick={()=>{
+            </Row>
+            {/* lay gia tri ma k can phai submit form */}
+            {/* set */}
+            {/* <Button onClick={()=>{
                     form.setFieldsValue({
                     email:"test"
                 })}  }>Test</Button> */}
-            </div>
+
         </Form>
     )
 }
