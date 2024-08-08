@@ -12,15 +12,18 @@ const UserTable = (props) => {
   const [openDetailUser, setOpenDetailUser] = useState(false);
   const [dataDetailUser, setDataDetailUser] = useState(null);
 
-  const { loadUser, dataUsers } = props
+  const { loadUser, dataUsers, current, total, pageSize } = props
 
 
+  const onChange = (pagination, filters, sorter, extra) => {
+    console.log("check onchange",{pagination, filters, sorter, extra})
+   };
 
 
   const columns = [
     {
       title: "STT",
-      render: (_,record, index) => {
+      render: (_, record, index) => {
         return (
           <div>
             {index + 1}
@@ -119,13 +122,16 @@ const UserTable = (props) => {
         rowKey={"_id"}
         pagination={
           {
-            current: 1,
-            pageSize: 5,
+            current: current,
+            pageSize: pageSize,
             showSizeChanger: true,
-            total: 99,
+            total: total,
             showTotal: (total, range) => { return (<div> {range[0]}-{range[1]} trên {total} rows</div>) }
+            
           }
+          
         }
+        onChange={onChange}
 
       />
       <UpdateUserModal
