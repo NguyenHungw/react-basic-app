@@ -1,7 +1,7 @@
 import { Link, NavLink } from 'react-router-dom'
 //import './header.css'
 import { Menu } from 'antd'
-import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
+import { AppstoreOutlined, LoginOutlined, LogoutOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 
 
@@ -30,7 +30,23 @@ const items = [
         key: 'products',
         icon: <AppstoreOutlined />,
         // disabled: true,
-    }
+    },
+    {
+        label: 'Setting',
+        key: 'SubMenu',
+        icon: <SettingOutlined />,
+        children: [
+          {
+            type: 'group',
+            label: 'Item 1',
+            children: [
+              { label: <Link to = "/login">Login</Link>, key: 'login' ,icon:<LoginOutlined /> },
+              { label: <Link to = "/">Logout</Link>, key: 'logout', icon:<LogoutOutlined /> },
+            ],
+          },
+        ],
+      },
+
 ];
     //anchor
   

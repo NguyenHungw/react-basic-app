@@ -38,11 +38,7 @@ const RegisterPage = () => {
             // onFinishFailed={onFinishFailed}
             autoComplete="off"
         >
-
-            <Row justify={"center"}>
-
-
-
+            <Row justify={"center"} >
                 <Col xs={24} md={6}>
                     <Form.Item
                         label="Username"
@@ -131,9 +127,10 @@ const RegisterPage = () => {
             </Row>
 
             {/* <button type="submit" >Register</button> */}
-            <Row justify={"center"}>
+            <Row justify={"center"} >
 
                 <Button onClick={() => { form.submit() }} type="primary">register</Button>
+                <Button onClick={()=>{navigate("/login")}} >Login</Button>
             </Row>
             {/* lay gia tri ma k can phai submit form */}
             {/* set */}
