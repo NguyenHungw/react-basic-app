@@ -2,16 +2,22 @@ import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Col, Divider, Flex, Form, Input, notification, Row } from "antd"
 import { json, useNavigate } from "react-router-dom";
 import { loginUserAPI } from "../services/api.service";
+import { useState } from "react";
 
 const LoginPage = () => {
     const navigate = useNavigate();
+    const [loading,setLoading] = useState(false)
+
     const onFinish = async(values) => {
+        setLoading(true)
         const res = await loginUserAPI(values.username,values.password)
         if(res.data){
             notification.success({
                 message:"Dn",
                 description:"dang nhap thanh cong"
             })
+            navigate("/")
+
             console.log(res.data)
         }else{
             notification.error({
@@ -19,6 +25,7 @@ const LoginPage = () => {
                 description: JSON.stringify(res.data)
             })
         }
+        setLoading(false)
         //console.log("check values login",values)
     }
     return (
@@ -90,7 +97,9 @@ const LoginPage = () => {
 
                         <Divider></Divider>
                         <Form.Item>
-                            <Button block type="primary" htmlType="submit">
+                            <Button 
+                            loading={loading}
+                            block type="primary" htmlType="submit">
                                 Log in
                             </Button>
                             or <a onClick={() => { navigate("/register") }}>Register now!</a>
