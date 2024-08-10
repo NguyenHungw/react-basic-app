@@ -2,11 +2,13 @@ import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Col, Divider, Flex, Form, Input, notification, Row } from "antd"
 import { json, useNavigate } from "react-router-dom";
 import { loginUserAPI } from "../services/api.service";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "../components/context/auth.context";
 
 const LoginPage = () => {
     const navigate = useNavigate();
     const [loading,setLoading] = useState(false)
+    const {setUser} =useContext(AuthContext)
 
     const onFinish = async(values) => {
         setLoading(true)
@@ -15,7 +17,10 @@ const LoginPage = () => {
             notification.success({
                 message:"Dn",
                 description:"dang nhap thanh cong"
+            
             })
+            localStorage.setItem("access_token",res.data.access_token)
+            setUser(res.data.user)
             navigate("/")
 
             console.log(res.data)
