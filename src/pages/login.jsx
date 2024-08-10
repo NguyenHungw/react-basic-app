@@ -1,13 +1,25 @@
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { Button, Checkbox, Col, Divider, Flex, Form, Input, Row } from "antd"
-import { useNavigate } from "react-router-dom";
+import { Button, Checkbox, Col, Divider, Flex, Form, Input, notification, Row } from "antd"
+import { json, useNavigate } from "react-router-dom";
 import { loginUserAPI } from "../services/api.service";
 
 const LoginPage = () => {
     const navigate = useNavigate();
-    const onFinish = (values) => {
-        //const res = loginUserAPI(username,password)
-        console.log("check values login",values)
+    const onFinish = async(values) => {
+        const res = await loginUserAPI(values.username,values.password)
+        if(res.data){
+            notification.success({
+                message:"Dn",
+                description:"dang nhap thanh cong"
+            })
+            console.log(res.data)
+        }else{
+            notification.error({
+                message:"error login",
+                description: JSON.stringify(res.data)
+            })
+        }
+        //console.log("check values login",values)
     }
     return (
         <Row justify={"center"}>
