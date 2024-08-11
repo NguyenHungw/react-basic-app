@@ -3,7 +3,6 @@ const Tododata = (props) => {
     
   
     // console.log(props.todoList)
-    console.log("check props",todoList)
 
     const handleDelete = (id) =>{
      // const removeByid = todoList.filter((item) => id ===todoList.id)
@@ -15,7 +14,6 @@ const Tododata = (props) => {
     return (
         <div className='todo-data'>
           {todoList.map( (item,index) => {
-            console.log("check map >>", item,index)
             return(
             <div key={index}>
               {/* key = {index} cach 1 */}

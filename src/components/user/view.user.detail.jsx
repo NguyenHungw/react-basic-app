@@ -30,11 +30,9 @@ const ViewUserDetail = (props) => {
       setPreview(URL.createObjectURL(file))
     }
   }
-  console.log("check file>>>", preview)
 
   const handleUpdateUserAvatar = async () => {
     const resUpload = await handleUploadFile(selectedFile, "avatar") //avatar o day la ten folder chua anh ten la avatar trong thu muc share
-    console.log("check resUpload", resUpload)
 
     if (resUpload.data) {
       //success

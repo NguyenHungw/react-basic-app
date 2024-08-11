@@ -6,32 +6,32 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../components/context/auth.context";
 
 const LoginPage = () => {
-    const navigate = useNavigate();
-    const [loading,setLoading] = useState(false)
-    const {setUser} =useContext(AuthContext)
+    const [form] = Form.useForm();
 
-    const onFinish = async(values) => {
+    const navigate = useNavigate();
+    const [loading, setLoading] = useState(false)
+    const { setUser } = useContext(AuthContext)
+
+    const onFinish = async (values) => {
         setLoading(true)
-        const res = await loginUserAPI(values.username,values.password)
-        if(res.data){
+        const res = await loginUserAPI(values.username, values.password)
+        if (res.data) {
             notification.success({
-                message:"Dn",
-                description:"dang nhap thanh cong"
-            
+                message: "Dn",
+                description: "dang nhap thanh cong"
+
             })
-            localStorage.setItem("access_token",res.data.access_token)
+            localStorage.setItem("access_token", res.data.access_token)
             setUser(res.data.user)
             navigate("/")
 
-            console.log(res.data)
-        }else{
+        } else {
             notification.error({
-                message:"error login",
+                message: "error login",
                 description: JSON.stringify(res.data)
             })
         }
         setLoading(false)
-        //console.log("check values login",values)
     }
     return (
         <Row justify={"center"}>
@@ -52,6 +52,9 @@ const LoginPage = () => {
                         //   style={{
                         //     maxWidth: 360,
                         //   }}
+                        form={form}
+
+
                         onFinish={onFinish}
                         style={{
                             // marginTop: 50,
@@ -85,7 +88,9 @@ const LoginPage = () => {
                                 },
                             ]}
                         >
-                            <Input.Password prefix={<LockOutlined />} type="password" placeholder="Password" />
+                            <Input.Password onKeyDown={(event) => {
+                                if (event.key === "Enter") form.submit()
+                            }} prefix={<LockOutlined />} type="password" placeholder="Password" />
                         </Form.Item>
 
 
@@ -102,9 +107,11 @@ const LoginPage = () => {
 
                         <Divider></Divider>
                         <Form.Item>
-                            <Button 
-                            loading={loading}
-                            block type="primary" htmlType="submit">
+                            <Button
+                                loading={loading}
+                                type="primary"
+                                onClick={() => form.submit()}
+                            >
                                 Log in
                             </Button>
                             or <a onClick={() => { navigate("/register") }}>Register now!</a>

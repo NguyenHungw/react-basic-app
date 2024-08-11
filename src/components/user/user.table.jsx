@@ -28,7 +28,6 @@ const UserTable = (props) => {
         setPageSize(+pagination.pageSize) //"5" =>5
       }
     }
-    console.log("check onchange", { pagination, filters, sorter, extra })
 
   };
 
@@ -109,14 +108,11 @@ const UserTable = (props) => {
   const HandleDelete = async (id) => {
 
     const res = await deleteUserAPI(id)
-    console.log("check res>>>>", res)
     if (res.data) {
-      console.log("xoa thanh cong")
       notification.success({
         message: "Delete User",
         description: "Xóa user thành công"
       })
-      console.log("check restData", res.data)
       //resetAndCloseModal();
       await loadUser();
 

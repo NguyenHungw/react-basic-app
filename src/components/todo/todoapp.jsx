@@ -22,7 +22,6 @@ const TodoApp = () =>{
     const DeleteTodo = (id) =>{
   
       const removeByid = TodoList.filter((item) => item.id !==id)
-      //console.log(id)
       setTodoList(removeByid)
     }
   

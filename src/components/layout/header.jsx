@@ -8,51 +8,56 @@ import { AuthContext } from '../context/auth.context';
 
 const Header = () => {
     const [current, setCurrent] = useState('');
-    const {user} =useContext(AuthContext)
-    console.log("check data>>",user)
+    const { user } = useContext(AuthContext)
     const onClick = (e) => {
-        console.log('click ', e);
-        setCurrent(e.key); 
+        setCurrent(e.key);
         //neu bien current = voi gia tri bien key thi hien thi gia tri gach chan css o duoi
     };
-    
-const items = [
-    {
-        label: <Link to="/">Home</Link>,
-        key: 'home', // key ung voi class active de co class gach guoi
-        icon: <MailOutlined />,
-    },
-    {
-        label: <Link to="/users" >Users</Link>,
-        key: 'users',
-        icon: <AppstoreOutlined />,
-        // disabled: true,
-    },
-    {
-        label: <Link to = "/book">Products</Link>,
-        key: 'products',
-        icon: <AppstoreOutlined />,
-        // disabled: true,
-    },
-    {
-        label: 'Setting',
-        key: 'SubMenu',
-        icon: <SettingOutlined />,
-        children: [
-          {
-            type: 'group',
-            label: 'Item 1',
-            children: [
-              { label: <Link to = "/login">Login</Link>, key: 'login' ,icon:<LoginOutlined /> },
-              { label: <Link to = "/">Logout</Link>, key: 'logout', icon:<LogoutOutlined /> },
-            ],
-          },
-        ],
-      },
 
-];
+    const items = [
+        {
+            label: <Link to="/">Home</Link>,
+            key: 'home', // key ung voi class active de co class gach guoi
+            icon: <MailOutlined />,
+        },
+        {
+            label: <Link to="/users" >Users</Link>,
+            key: 'users',
+            icon: <AppstoreOutlined />,
+            // disabled: true,
+        },
+        {
+            label: <Link to="/book">Products</Link>,
+            key: 'products',
+            icon: <AppstoreOutlined />,
+            // disabled: true,
+        },
+        ...(!user.id ? [{
+            label: <Link to="/login">Đăng Nhập</Link>,
+            key: 'login',
+            icon: <LoginOutlined />,
+        }] : []),
+        ...(user.id ? [{
+            
+            label: `Welcome ${user.fullName}`,
+            key: 'SubMenu',
+            icon: <SettingOutlined />,
+            children: [
+                {
+                    type: 'group',
+                    label: 'item1',
+                    children: [
+                        { label: <Link to="/">Đăng Xuất</Link>, key: 'logout', icon: <LogoutOutlined /> },
+                    ],
+                },
+            ],
+        }] : []),
+
+
+
+    ];
     //anchor
-  
+
 
     return (
         <Menu
