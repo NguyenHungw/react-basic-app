@@ -92,7 +92,50 @@ const logOuttAccountAPI = () => {
    
     return axios.post(URL_BACKEND)
 }
+
+//book with paginate
+//get
+const getAllBook = (current,pageSize) => {
+    const URL_BACKEND = `/api/v1/book?current=${current}&pageSize=${pageSize}`;
+
+    return axios.get(URL_BACKEND)
+}
+//create
+const createBookAPI = (thumbnail,mainText, author, price, quantity,category) => {
+    const URL_BACKEND = "/api/v1/book";
+    const data = {
+        thumbnail:thumbnail,
+        mainText: mainText,
+        author: author,
+        price: price,
+        quantity: quantity,
+        category:category
+
+    }
+    return axios.post(URL_BACKEND, data)
+}
+
+//update
+const updateBookAPI = (_id,thumbnail, author, price, quantity,category) => {
+    const URL_BACKEND = "/api/v1/book";
+    const data = {
+        thumbnail: thumbnail,
+        author: author,
+        price: price,
+        quantity: quantity,
+        category:category
+
+    }
+    return axios.put(URL_BACKEND, data)
+}
+
+//delete
+const deleteBookAPI = (id) => {
+    const URL_BACKEND = `/api/v1/book/${id}`;
+    return axios.delete(URL_BACKEND)
+}
 export {
     createUserAPI, updateUserAPI, fetchAllUserAPI, deleteUserAPI, handleUploadFile,
-     updateUserAvatarAPI,registerUserAPI,loginUserAPI,getAccountAPI,logOuttAccountAPI
+     updateUserAvatarAPI,registerUserAPI,loginUserAPI,getAccountAPI,logOuttAccountAPI,
+     getAllBook,createBookAPI,updateBookAPI,deleteBookAPI
 }
