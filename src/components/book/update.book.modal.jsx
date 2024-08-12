@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Input, Modal, notification } from 'antd';
-import { createBookAPI } from '../../services/api.service';
+import { createBookAPI, updateBookAPI } from '../../services/api.service';
 const BookForm = (props) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  //const [isModalOpen, setIsModalOpen] = useState(false);
+  const [id,setId] = useState("")
   const [mainText,setMaintext] = useState("")
   const [author,setAuthor] = useState("")
 
@@ -11,17 +12,31 @@ const BookForm = (props) => {
   const [category,setCategory] = useState("")
   const [thumbnail,setThumbnail] = useState("")
 
+  const { isUpdateBookModel,setIsUpdateBookModel,dataUpdate,setDataUpdate,loadBook} = props
+
   const resetAndCloseModal = () => {
-    setIsModalOpen(false)
+    setIsUpdateBookModel(false)
     setPrice("")
     setQuantity("")
     setCategory("")
     setThumbnail("")
   }
-const {loadBook} = props
+ useEffect(()=>{
+  if(dataUpdate){
+    // console.log("check data update",dataUpdate)
+    setId(dataUpdate._id)
+    setMaintext(dataUpdate.mainText)
+    setAuthor(dataUpdate.author)
+    setPrice(+dataUpdate.price)
+    setQuantity(+dataUpdate.quantity)
+    setCategory(dataUpdate.category)
+    setThumbnail(dataUpdate.thumbnail)
+  }
+ 
+ },[dataUpdate])
   const handleOk = async() => {
     console.log("check data",thumbnail,mainText, author, price, quantity,category)
-    const res = await createBookAPI(thumbnail,mainText, author, price, quantity,category)
+    const res = await updateBookAPI(id,thumbnail,mainText, author, price, quantity,category)
     console.log(res)
     if(res.data){
       notification.success({
@@ -42,18 +57,25 @@ const {loadBook} = props
 
   return (
     <>
-      <Button 
+      {/* <Button 
       type="primary" 
-      onClick={()=>setIsModalOpen(true)}
+      onClick={()=>setIsUpdateBookModel(true)}
       style={{display: "flex", justifyContent: "space-between"}}
       >
-        Create Product
-      </Button>
+        test
+      </Button> */}
       <Modal title="Basic Modal" 
-      open={isModalOpen} 
-      onOk={handleOk} 
-      onCancel={()=>{setIsModalOpen(false)}}>
+       open={isUpdateBookModel} 
+      onOk={handleOk}
+      // onCancel={()=>{setIsUpdateBookModel(false)}}>
+      onCancel={()=>{setIsUpdateBookModel(false)}}>
 
+<label>Id</label>
+      <Input
+      value={id}
+      onChange={(event)=>{setId(event.target.value)}}
+      disabled
+      ></Input>
       
       <label>thumbnail</label>
       <Input

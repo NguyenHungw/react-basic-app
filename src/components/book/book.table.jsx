@@ -1,12 +1,13 @@
-import { Popconfirm, Table } from "antd";
+import { notification, Popconfirm, Table } from "antd";
 import { useEffect, useState } from "react";
-import { getAllBook } from "../../services/api.service";
+import { deleteBookAPI, getAllBook } from "../../services/api.service";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import BookForm from "./update.book.modal";
+import BookDetail from "./view.book.detail";
 
 const BookTable = (props) => {
   const {
     dataBook,
-    setDataBook,
     current,
     setCurrent,
     pageSize,
@@ -15,6 +16,13 @@ const BookTable = (props) => {
     loadBook
    } = props
    const [isModalOpen, setIsModalOpen] = useState(false);
+   const [isUpdateBookModel,setIsUpdateBookModel] = useState(false)
+   const [viewDetail, setViewDetail] = useState(false)
+   const [dataViewDetail,setViewDataDetail] = useState(null)
+
+   const [dataUpdate,setDataUpdate] = useState(null)
+
+
     const onChange = (pagination, filters, sorter, extra) => {
         //setCurrent ,setPageSize
         //nếu thay đổi trang Current 
@@ -47,7 +55,12 @@ const BookTable = (props) => {
             //key: '_id',
             render: (_, record) => {
                 return (
-                    <a href="#">{record._id}</a>
+                    <a onClick={()=>{
+                      setViewDetail(true)
+                      setViewDataDetail(record)
+
+                    }} href="#">{record._id}</a>
+                    
                 )
             }
         },
@@ -79,19 +92,20 @@ const BookTable = (props) => {
                 <div style={{ display: "flex", gap: "20px" }}>
                   <EditOutlined
                     onClick={() => {
-                      setDataBook(record)
-                      setIsModalOpen(true)
+                      console.log("check record",record)
+                     setDataUpdate(record)
+                      setIsUpdateBookModel(true)
                     }}
                     style={{ cursor: "pointer", color: "orange" }}
                   />
                   <Popconfirm
-                    // placement="left"
-                    // title="Delete the task"
-                    // description="Are you sure to delete this task?"
-                    // onConfirm={() => { HandleDelete(record._id) }}
-                    // //onCancel={cancel}
-                    // okText="Yes"
-                    // cancelText="No"
+                    placement="left"
+                    title="Delete the task"
+                    description="Are you sure to delete this task?"
+                    onConfirm={() => { HandleDelete(record._id) }}
+                    //onCancel={cancel}
+                    okText="Yes"
+                    cancelText="No"
                   >
                     <DeleteOutlined style={{ cursor: "pointer", color: "red" }} />
                   </Popconfirm>
@@ -100,6 +114,21 @@ const BookTable = (props) => {
             )
         }
     ];
+    const HandleDelete = async(id) => {
+      const res = await deleteBookAPI(id)
+      if(res){
+        notification.success({
+          message:"Deleted",
+          description:"Xoas thanh cong"
+        })
+        await loadBook()
+      }else{
+        notification.error({
+          message:"error",
+          description: JSON.stringify(res.message)
+        })
+      }
+    }
     return (
         <>
             <Table
@@ -117,8 +146,23 @@ const BookTable = (props) => {
                     }
                 }
                 onChange={onChange}
-                
+               
             />;
+            <BookForm
+            isUpdateBookModel={isUpdateBookModel}
+             setIsUpdateBookModel={setIsUpdateBookModel}
+             dataBook={dataBook}
+             setDataUpdate={setDataUpdate}
+             dataUpdate = {dataUpdate}
+             loadBook = {loadBook}
+            />
+            <BookDetail
+            viewDetail ={viewDetail}
+            setViewDetail = {setViewDetail}
+            dataViewDetail = {dataViewDetail}
+            setViewDataDetail = {setViewDataDetail}
+            
+            />
         </>
     )
 }

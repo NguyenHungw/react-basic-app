@@ -1,23 +1,36 @@
 import { useState } from "react";
 import { Button, Drawer } from 'antd';
 
-const BookDetail = () => {
-    const [open, setOpen] = useState(false);
-    const showDrawer = () => {
-      setOpen(true);
-    };
-    const onClose = () => {
-      setOpen(false);
-    };
+const BookDetail = (props) => {
+
+    
+    const {viewDetail,setViewDetail,dataViewDetail,setViewDataDetail } = props
+
     return(
         <>
-         <Button type="primary" onClick={showDrawer}>
+         {/* <Button type="primary" onClick={showDrawer}>
         Open
-      </Button>
-      <Drawer title="Basic Drawer" onClose={onClose} open={open}>
-        <p>Some contents...</p>
-        <p>Some contents...</p>
-        <p>Some contents...</p>
+      </Button> */}
+     
+      <Drawer title="Basic Drawer" onClose={()=>{setViewDetail(false)}} open={viewDetail}>
+        {dataViewDetail ? (
+          <>
+        <p>{dataViewDetail._id}</p>
+        <p>{dataViewDetail.thumbnail}</p>
+        <p>{dataViewDetail.mainText}</p>
+        <p>{dataViewDetail.author}</p>
+        <p>{dataViewDetail.price}</p>
+        <p>{dataViewDetail.quantity}</p>
+        <p>{dataViewDetail.category}</p>
+          </>
+        ):
+        (
+          <>
+          Nodata
+          </>
+        )
+        }
+     
       </Drawer>
 
         </>

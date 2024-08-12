@@ -42,7 +42,6 @@ const handleUploadFile = (file, folder) => {
             "Content-Type": 'multipart/form-data' //neu nhu ko co dong nay trinh duyet se hieu la dang gui 1 chuoi string
 
         }
-
     }
     const bodyFormData = new FormData();
     //ten bien fileImg giong trong phan body cua api
@@ -116,14 +115,17 @@ const createBookAPI = (thumbnail,mainText, author, price, quantity,category) => 
 }
 
 //update
-const updateBookAPI = (_id,thumbnail, author, price, quantity,category) => {
+const updateBookAPI = (_id,thumbnail,mainText, author, price, quantity,category) => {
     const URL_BACKEND = "/api/v1/book";
     const data = {
-        thumbnail: thumbnail,
+        _id:_id,
+        thumbnail:thumbnail,
+        mainText: mainText,
         author: author,
         price: price,
         quantity: quantity,
         category:category
+
 
     }
     return axios.put(URL_BACKEND, data)
