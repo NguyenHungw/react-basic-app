@@ -40,15 +40,18 @@ const handleUploadFile = (file, folder) => {
         headers: {
             "upload-type": folder,
             "Content-Type": 'multipart/form-data' //neu nhu ko co dong nay trinh duyet se hieu la dang gui 1 chuoi string
-
         }
     }
     const bodyFormData = new FormData();
     //ten bien fileImg giong trong phan body cua api
+
+    //key khoi tao IFormFile fileImg trong IformFile khi upload obj
     bodyFormData.append("fileImg", file)
 
     return axios.post(URL_BACKEND, bodyFormData, config)
 }
+
+
 const updateUserAvatarAPI = (avatar,_id,fullName,phone ) => {
     const URL_BACKEND = "/api/v1/user";
     const data = {
@@ -56,6 +59,22 @@ const updateUserAvatarAPI = (avatar,_id,fullName,phone ) => {
         avatar: avatar,
         fullName: fullName,
         phone: phone
+    }
+    return axios.put(URL_BACKEND, data)
+}
+const updateImgBookAPI = (thumbnail,_id,mainText,author,price,quantity,category ) => {
+    const URL_BACKEND = "/api/v1/book";
+    const data = {
+        _id: _id,
+        thumbnail: thumbnail,
+        mainText: mainText,
+        author: author,
+
+        price: price,
+        quantity: quantity,
+
+
+        category: category
     }
     return axios.put(URL_BACKEND, data)
 }
@@ -139,5 +158,5 @@ const deleteBookAPI = (id) => {
 export {
     createUserAPI, updateUserAPI, fetchAllUserAPI, deleteUserAPI, handleUploadFile,
      updateUserAvatarAPI,registerUserAPI,loginUserAPI,getAccountAPI,logOuttAccountAPI,
-     getAllBook,createBookAPI,updateBookAPI,deleteBookAPI
+     getAllBook,createBookAPI,updateBookAPI,deleteBookAPI,updateImgBookAPI
 }

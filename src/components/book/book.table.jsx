@@ -161,7 +161,7 @@ const BookTable = (props) => {
             setViewDetail = {setViewDetail}
             dataViewDetail = {dataViewDetail}
             setViewDataDetail = {setViewDataDetail}
-            
+            loadBook = {loadBook}
             />
         </>
     )
