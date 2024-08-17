@@ -44,9 +44,9 @@ const ViewUserDetail = (props) => {
       if (resUpdateAvatar.data) {
         setSelectedFile(null)
         setPreview(null)
-        setOpenDetailUser(false)
+       
         await loadUser()
-
+        setOpenDetailUser(true)
         notification.success({
           message: "Updated user avatar",
           description: "cập nhật avatar thành công"

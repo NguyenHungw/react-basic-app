@@ -33,6 +33,9 @@ const BookDetail = (props) => {
       const newImg = res.data.fileUploaded
       const resUpdateImg = await updateImgBookAPI(newImg,dataViewDetail._id,dataViewDetail.mainText,dataViewDetail.author,dataViewDetail.price,dataViewDetail.quantity,dataViewDetail.category)
       if(resUpdateImg.data){
+        setSelectedFile(null);
+        setPreview(null);
+        setViewDetail(false)
         await loadBook()
         notification.success({
           message:"Success",
