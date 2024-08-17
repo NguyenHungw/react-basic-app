@@ -7,20 +7,20 @@ const BookDetail = (props) => {
 
   const { viewDetail, setViewDetail, dataViewDetail, setViewDataDetail,loadBook } = props
   const [selectedFile, setSelectedFile] = useState(null);
-  const [preview, setPreview] = useState(null);
+  const [preview2, setPreview2] = useState(null);
 
   const handleOnchangUpload = (e) => {
     if (e.target.files && e.target.files.length === 0) {
 
 
       setSelectedFile(null);
-      setPreview(null);
+      setPreview2(null);
       return
     }
     const file = e.target.files[0]
     if (file) {
       setSelectedFile(file)
-      setPreview(URL.createObjectURL(file))
+      setPreview2(URL.createObjectURL(file))
       console.log("check lan thu 2>>", file)
      
 
@@ -34,7 +34,7 @@ const BookDetail = (props) => {
       const resUpdateImg = await updateImgBookAPI(newImg,dataViewDetail._id,dataViewDetail.mainText,dataViewDetail.author,dataViewDetail.price,dataViewDetail.quantity,dataViewDetail.category)
       if(resUpdateImg.data){
         setSelectedFile(null);
-        setPreview(null);
+        setPreview2(null);
         setViewDetail(false)
         await loadBook()
         notification.success({
@@ -59,7 +59,7 @@ const BookDetail = (props) => {
       })
     }
   }
-  console.log("check preview",preview)
+  console.log("check preview",preview2)
   return (
     <>
       {/* <Button type="primary" onClick={showDrawer}>
@@ -105,7 +105,7 @@ const BookDetail = (props) => {
               onChange={(event) => { handleOnchangUpload(event) }}
 
             ></input>
-            {preview &&
+            {preview2 &&
               <>
                 <div style={{
                   marginTop: "10px",
@@ -114,7 +114,7 @@ const BookDetail = (props) => {
                 }}>
                   <img style={{ height: "100%", width: "100%", objectFit: "contain" }}
 
-                    src={preview}
+                    src={preview2}
                   ></img>
                 </div>
                 <Button onClick={handleUploadBook} type="primary" style={{marginTop:"10px"}}>

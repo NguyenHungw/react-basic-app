@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Input, InputNumber, Modal, notification, Select } from 'antd';
 import { createBookAPI, handleUploadFile } from '../../services/api.service';
-const BookForm = (props) => {
+const BookFormUncontrol = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [mainText, setMaintext] = useState("")
   const [author, setAuthor] = useState("")
@@ -114,7 +114,7 @@ const BookForm = (props) => {
           Create Book
         </Button>
 
-        <Modal title="Form Control"
+        <Modal title="Uncontrol"
           open={isModalOpen}
           onOk={handleOk}
           onCancel={handleCancel}>
@@ -232,4 +232,4 @@ const BookForm = (props) => {
     </div>
   );
 };
-export default BookForm;
+export default BookFormUncontrol;

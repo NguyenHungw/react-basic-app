@@ -13,28 +13,44 @@ const BookForm = (props) => {
   const [thumbnail,setThumbnail] = useState("")
 
   const { isUpdateBookModel,setIsUpdateBookModel,dataUpdate,setDataUpdate,loadBook} = props
-  const [preview,setPreview] = useState(null)
+  const [preview1,setPreview1] = useState(null)
   const [selectedFile,setSelectedFile] = useState(null)
+
+
   const handleSelecteFile = (e) => {
     if(!e.target.files || e.target.files === 0){
-      setPreview(null)
+      setPreview1(null)
       setSelectedFile(null)
       return
     }
     const file = e.target.files[0]
     if(file){
       setSelectedFile(file)
-      setPreview(URL.createObjectURL(file))
+      setPreview1(URL.createObjectURL(file))
     }
   }
   const resetAndCloseModal = async() => {
     setIsUpdateBookModel(false)
+    setPreview1(null)
+    setSelectedFile(null)
     setPrice("")
     setQuantity("")
     setCategory("")
+    setAuthor(null)
     setThumbnail("")
     await loadBook()
 
+  }
+  const handleCancel = async() => {
+    setIsUpdateBookModel(false)
+    setPreview1(null)
+    setSelectedFile(null)
+    setPrice("")
+    setQuantity("")
+    setCategory("")
+    setAuthor("")
+    setThumbnail("")
+    await loadBook()
   }
  useEffect(()=>{
   if(dataUpdate){
@@ -50,24 +66,26 @@ const BookForm = (props) => {
  
  },[dataUpdate])
   const handleOk = async() => {
-    const resUpload = await handleUploadFile()
-    //console.log("check data",thumbnail,mainText, author, price, quantity,category)
-    const res = await updateBookAPI(id,thumbnail,mainText, author, price, quantity,category)
-    console.log(res)
-    if(res.data){
-      notification.success({
-        message:"thêm mới thành công",
-        description:"ok"
-      })
-      await resetAndCloseModal()
+    const resUpload = await handleUploadFile(selectedFile,"book")
+    if(resUpload.data){
+      const newImg = resUpload.data.fileUploaded
+      const resUpdateBook = await updateBookAPI(id,newImg,mainText, author, price, quantity,category)
+      if(resUpdateBook.data){
+        await resetAndCloseModal()
+        notification.success({
+          message:"sucess",
+          description:"Cap nhat thanh cong"
 
-
-    }else{
-      notification.error({
-        message:"thêm mới thất bại",
-        description: JSON.stringify(res.message)
-      })
+        })
+      }else{
+        notification.error({
+          message:"error",
+          description:JSON.stringify(resUpdateBook.data.error)
+        })
+      }
+      
     }
+  
   };
 
   return (
@@ -83,7 +101,7 @@ const BookForm = (props) => {
        open={isUpdateBookModel} 
       onOk={handleOk}
       // onCancel={()=>{setIsUpdateBookModel(false)}}>
-      onCancel={()=>{setIsUpdateBookModel(false)}}>
+      onCancel={handleCancel}>
 
 <label>Id</label>
       <Input
@@ -126,7 +144,7 @@ const BookForm = (props) => {
             <input type='file' hidden id="btnUpload"
             onChange={(e)=>{handleSelecteFile(e)}}
             ></input>
-             {preview &&
+             {preview1 &&
               <>
                 <div style={{
                   marginTop: "10px",
@@ -135,13 +153,13 @@ const BookForm = (props) => {
                 }}>
                   <img style={{ height: "100%", width: "100%", objectFit: "contain" }}
 
-                    src={preview}
+                    src={preview1}
                   ></img>
                 </div>
-                <Button
+                {/* <Button
                   type="primary"
                  // onClick={handleUpdateUserAvatar}
-                >Save</Button>
+                >Save</Button> */}
               </>
 
             }

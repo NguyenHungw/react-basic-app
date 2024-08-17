@@ -4,6 +4,7 @@ import { deleteBookAPI, getAllBook } from "../../services/api.service";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import BookForm from "./update.book.modal";
 import BookDetail from "./view.book.detail";
+import BookFormUncontrol from "./book.form.uncontrol";
 
 const BookTable = (props) => {
   const {
@@ -15,7 +16,6 @@ const BookTable = (props) => {
     total,
     loadBook
    } = props
-  //  const [isModalOpen, setIsModalOpen] = useState(false);
    const [isUpdateBookModel,setIsUpdateBookModel] = useState(false)
    const [viewDetail, setViewDetail] = useState(false)
    const [dataViewDetail,setViewDataDetail] = useState(null)
@@ -77,7 +77,13 @@ const BookTable = (props) => {
         {
             title: 'Price',
             dataIndex: 'price',
-            key: 'price',
+            render: (text, record, index, action) => {
+              if (text)
+                  return new Intl.NumberFormat('vi-VN',
+                      { style: 'currency', currency: 'VND' }).format(text)
+
+          },
+
         },
         {
             title: 'Category',
@@ -148,14 +154,15 @@ const BookTable = (props) => {
                 onChange={onChange}
                
             />
-            <BookForm
+            {/* <BookForm
             isUpdateBookModel={isUpdateBookModel}
              setIsUpdateBookModel={setIsUpdateBookModel}
              dataBook={dataBook}
              setDataUpdate={setDataUpdate}
              dataUpdate = {dataUpdate}
              loadBook = {loadBook}
-            />
+            /> */}
+           
             <BookDetail
             viewDetail ={viewDetail}
             setViewDetail = {setViewDetail}
