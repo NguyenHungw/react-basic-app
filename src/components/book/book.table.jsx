@@ -15,7 +15,7 @@ const BookTable = (props) => {
     total,
     loadBook
    } = props
-   const [isModalOpen, setIsModalOpen] = useState(false);
+  //  const [isModalOpen, setIsModalOpen] = useState(false);
    const [isUpdateBookModel,setIsUpdateBookModel] = useState(false)
    const [viewDetail, setViewDetail] = useState(false)
    const [dataViewDetail,setViewDataDetail] = useState(null)
@@ -147,7 +147,7 @@ const BookTable = (props) => {
                 }
                 onChange={onChange}
                
-            />;
+            />
             <BookForm
             isUpdateBookModel={isUpdateBookModel}
              setIsUpdateBookModel={setIsUpdateBookModel}

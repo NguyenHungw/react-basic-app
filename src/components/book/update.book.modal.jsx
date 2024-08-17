@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Input, Modal, notification } from 'antd';
-import { createBookAPI, updateBookAPI } from '../../services/api.service';
+import { createBookAPI, handleUploadFile, updateBookAPI } from '../../services/api.service';
 const BookForm = (props) => {
   //const [isModalOpen, setIsModalOpen] = useState(false);
   const [id,setId] = useState("")
@@ -13,13 +13,28 @@ const BookForm = (props) => {
   const [thumbnail,setThumbnail] = useState("")
 
   const { isUpdateBookModel,setIsUpdateBookModel,dataUpdate,setDataUpdate,loadBook} = props
-
-  const resetAndCloseModal = () => {
+  const [preview,setPreview] = useState(null)
+  const [selectedFile,setSelectedFile] = useState(null)
+  const handleSelecteFile = (e) => {
+    if(!e.target.files || e.target.files === 0){
+      setPreview(null)
+      setSelectedFile(null)
+      return
+    }
+    const file = e.target.files[0]
+    if(file){
+      setSelectedFile(file)
+      setPreview(URL.createObjectURL(file))
+    }
+  }
+  const resetAndCloseModal = async() => {
     setIsUpdateBookModel(false)
     setPrice("")
     setQuantity("")
     setCategory("")
     setThumbnail("")
+    await loadBook()
+
   }
  useEffect(()=>{
   if(dataUpdate){
@@ -35,7 +50,8 @@ const BookForm = (props) => {
  
  },[dataUpdate])
   const handleOk = async() => {
-    console.log("check data",thumbnail,mainText, author, price, quantity,category)
+    const resUpload = await handleUploadFile()
+    //console.log("check data",thumbnail,mainText, author, price, quantity,category)
     const res = await updateBookAPI(id,thumbnail,mainText, author, price, quantity,category)
     console.log(res)
     if(res.data){
@@ -43,9 +59,8 @@ const BookForm = (props) => {
         message:"thêm mới thành công",
         description:"ok"
       })
-      resetAndCloseModal()
+      await resetAndCloseModal()
 
-      await loadBook()
 
     }else{
       notification.error({
@@ -64,7 +79,7 @@ const BookForm = (props) => {
       >
         test
       </Button> */}
-      <Modal title="Basic Modal" 
+      <Modal title="Edit Modal" 
        open={isUpdateBookModel} 
       onOk={handleOk}
       // onCancel={()=>{setIsUpdateBookModel(false)}}>
@@ -81,7 +96,55 @@ const BookForm = (props) => {
       <Input
       value={thumbnail}
       onChange={(event)=>{setThumbnail(event.target.value)}}
+      disabled
       ></Input>
+        <div style={{
+              marginTop: "10px",
+              height: "100px", width: "150px",
+              border: "1px solid #ccc"
+            }}>
+              <img style={{ height: "100%", width: "100%", objectFit: "contain" }}
+
+                src={`${import.meta.env.VITE_BACKEND_URL}/images/book/${thumbnail}`}
+              ></img>
+              </div>
+         <label htmlFor="btnUpload"
+             style={
+              {
+                display: "block",
+                width: "fit-content",
+                marginTop: "15px",
+                padding: "5px 10px",
+                background: "orange",
+                borderRadius: "5px",
+                cursor: "pointer"
+
+              }}
+            >
+              Upload
+            </label>
+            <input type='file' hidden id="btnUpload"
+            onChange={(e)=>{handleSelecteFile(e)}}
+            ></input>
+             {preview &&
+              <>
+                <div style={{
+                  marginTop: "10px",
+                  height: "100px", width: "150px",
+                  border: "1px solid #ccc"
+                }}>
+                  <img style={{ height: "100%", width: "100%", objectFit: "contain" }}
+
+                    src={preview}
+                  ></img>
+                </div>
+                <Button
+                  type="primary"
+                 // onClick={handleUpdateUserAvatar}
+                >Save</Button>
+              </>
+
+            }
       <label>Maintext</label>
       <Input
       value={mainText}
