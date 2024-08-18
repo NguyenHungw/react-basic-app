@@ -5,6 +5,8 @@ import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import BookForm from "./update.book.modal";
 import BookDetail from "./view.book.detail";
 import BookFormUncontrol from "./book.form.uncontrol";
+import UpdateBookForm from "./update.book.modal";
+import UpdateBookFormUncontroll from "./update.book.modal.uncontroll";
 
 const BookTable = (props) => {
   const {
@@ -154,7 +156,7 @@ const BookTable = (props) => {
                 onChange={onChange}
                
             />
-            {/* <BookForm
+            {/* <UpdateBookForm
             isUpdateBookModel={isUpdateBookModel}
              setIsUpdateBookModel={setIsUpdateBookModel}
              dataBook={dataBook}
@@ -162,6 +164,15 @@ const BookTable = (props) => {
              dataUpdate = {dataUpdate}
              loadBook = {loadBook}
             /> */}
+             <UpdateBookFormUncontroll
+            isUpdateBookModel={isUpdateBookModel}
+             setIsUpdateBookModel={setIsUpdateBookModel}
+             dataBook={dataBook}
+             setDataUpdate={setDataUpdate}
+             dataUpdate = {dataUpdate}
+             loadBook = {loadBook}
+            />
+             
            
             <BookDetail
             viewDetail ={viewDetail}

@@ -31,7 +31,9 @@ const BookPage = () => {
 
     return (
        <>
-       <BookFormUncontrol></BookFormUncontrol>
+       <BookFormUncontrol
+        loadBook={loadBook}
+       />
          {/* <BookForm
           loadBook={loadBook}
          /> */}

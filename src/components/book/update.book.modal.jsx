@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Input, Modal, notification } from 'antd';
 import { createBookAPI, handleUploadFile, updateBookAPI } from '../../services/api.service';
-const BookForm = (props) => {
+const UpdateBookForm = (props) => {
   //const [isModalOpen, setIsModalOpen] = useState(false);
   const [id,setId] = useState("")
   const [mainText,setMaintext] = useState("")
@@ -13,25 +13,25 @@ const BookForm = (props) => {
   const [thumbnail,setThumbnail] = useState("")
 
   const { isUpdateBookModel,setIsUpdateBookModel,dataUpdate,setDataUpdate,loadBook} = props
-  const [preview1,setPreview1] = useState(null)
+  const [preview,setPreview] = useState(null)
   const [selectedFile,setSelectedFile] = useState(null)
 
 
   const handleSelecteFile = (e) => {
     if(!e.target.files || e.target.files === 0){
-      setPreview1(null)
+      setPreview(null)
       setSelectedFile(null)
       return
     }
     const file = e.target.files[0]
     if(file){
       setSelectedFile(file)
-      setPreview1(URL.createObjectURL(file))
+      setPreview(URL.createObjectURL(file))
     }
   }
   const resetAndCloseModal = async() => {
     setIsUpdateBookModel(false)
-    setPreview1(null)
+    setPreview(null)
     setSelectedFile(null)
     setPrice("")
     setQuantity("")
@@ -43,7 +43,7 @@ const BookForm = (props) => {
   }
   const handleCancel = async() => {
     setIsUpdateBookModel(false)
-    setPreview1(null)
+    setPreview(null)
     setSelectedFile(null)
     setPrice("")
     setQuantity("")
@@ -62,31 +62,66 @@ const BookForm = (props) => {
     setQuantity(+dataUpdate.quantity)
     setCategory(dataUpdate.category)
     setThumbnail(dataUpdate.thumbnail)
+    setPreview(`${import.meta.env.VITE_BACKEND_URL}/images/book/${dataUpdate.thumbnail}`)
   }
  
  },[dataUpdate])
-  const handleOk = async() => {
-    const resUpload = await handleUploadFile(selectedFile,"book")
-    if(resUpload.data){
-      const newImg = resUpload.data.fileUploaded
-      const resUpdateBook = await updateBookAPI(id,newImg,mainText, author, price, quantity,category)
-      if(resUpdateBook.data){
-        await resetAndCloseModal()
-        notification.success({
-          message:"sucess",
-          description:"Cap nhat thanh cong"
 
-        })
-      }else{
-        notification.error({
-          message:"error",
-          description:JSON.stringify(resUpdateBook.data.error)
-        })
-      }
-      
+ const updateBook = async(newThumbnail)=>{
+  const res = await updateBookAPI(id,newThumbnail,mainText,author,price,quantity,category)
+    if(res.data){
+      await resetAndCloseModal()
+
+      notification.success({
+        message:"success",
+        description:"Cap nhat thanh cong"
+
+      })
     }
-  
-  };
+    else{
+      notification.error({
+        message:"error",
+        description:JSON.stringify(res.data.error)
+      })
+     }
+  }
+  //
+ 
+  const handleOk = async() => {
+       //không có ảnh preview + không có file => return
+       if (!selectedFile && !preview) {
+        await resetAndCloseModal()
+        notification.error({
+            message: "Error update book",
+            description: "Vui lòng upload ảnh thumbnail"
+        })
+        return;
+    }
+
+    let newThumbnail = "";
+    //có ảnh preview và không có file => không upload file
+    if (!selectedFile && preview) {
+        //do nothing
+        newThumbnail = dataUpdate.thumbnail;
+    } else {
+        //có ảnh preview và có file => upload file
+        const resUpload = await handleUploadFile(selectedFile, "book");
+        if (resUpload.data) {
+            //success
+            newThumbnail = resUpload.data.fileUploaded;
+        } else {
+            //failed
+            notification.error({
+                message: "Error upload file",
+                description: JSON.stringify(resUpload.message)
+            });
+            return;
+        }
+    }
+
+    //step 2: update book
+    await updateBook(newThumbnail);
+};
 
   return (
     <>
@@ -144,7 +179,7 @@ const BookForm = (props) => {
             <input type='file' hidden id="btnUpload"
             onChange={(e)=>{handleSelecteFile(e)}}
             ></input>
-             {preview1 &&
+             {preview &&
               <>
                 <div style={{
                   marginTop: "10px",
@@ -153,7 +188,7 @@ const BookForm = (props) => {
                 }}>
                   <img style={{ height: "100%", width: "100%", objectFit: "contain" }}
 
-                    src={preview1}
+                    src={preview}
                   ></img>
                 </div>
                 {/* <Button
@@ -200,4 +235,4 @@ const BookForm = (props) => {
     </>
   );
 };
-export default BookForm;
+export default UpdateBookForm;
