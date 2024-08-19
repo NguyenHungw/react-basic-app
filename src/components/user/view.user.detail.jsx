@@ -16,6 +16,7 @@ const ViewUserDetail = (props) => {
 
   const handleOnchangUpload = (event) => {
     //kiem tra neu ko upload file
+    // neu target file = false hoac trong mang k co phan tu nao
     if (!event.target.files || event.target.files.length === 0) {
       //setSelectedFile(undefined)
       setSelectedFile(null)
@@ -33,9 +34,11 @@ const ViewUserDetail = (props) => {
 
   const handleUpdateUserAvatar = async () => {
     const resUpload = await handleUploadFile(selectedFile, "avatar") //avatar o day la ten folder chua anh ten la avatar trong thu muc share
+     
 
     if (resUpload.data) {
       //success
+      
 
       // console.log("check resUploaddata", resUpload.data)
       const newAvatar = resUpload.data.fileUploaded
@@ -44,9 +47,9 @@ const ViewUserDetail = (props) => {
       if (resUpdateAvatar.data) {
         setSelectedFile(null)
         setPreview(null)
-       
+        setOpenDetailUser(false)
         await loadUser()
-        setOpenDetailUser(true)
+
         notification.success({
           message: "Updated user avatar",
           description: "cập nhật avatar thành công"

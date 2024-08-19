@@ -50,7 +50,7 @@ const UpdateBookFormUncontroll = (props) => {
       // console.log("check data update",dataUpdate)
       //setId(dataUpdate._id)
       form.setFieldsValue({
-        _id:dataUpdate._id,
+        _id: dataUpdate._id,
         mainText: dataUpdate.mainText,
         author: dataUpdate.author,
         price: +dataUpdate.price,
@@ -64,14 +64,16 @@ const UpdateBookFormUncontroll = (props) => {
 
 
   }, [dataUpdate])
-  console.log("check preview updatemodal", preview)
-  
+  console.log("check preview", preview)
+  console.log("check dataUpdate.thumbnail>", dataUpdate.thumbnail)
 
 
-  const updateBook = async (newThumbnail, values) => {
-    const { _id, mainText, author, price, quantity, category } = values;
-    const res = await updateBookAPI(_id,newThumbnail, mainText, author, price, quantity, category)
 
+  const updateBook = async (newThumbnail,values) => {
+    
+    // const { _id, mainText, author, price, quantity, category } = values;
+    // const res = await updateBookAPI(_id, newThumbnail, mainText, author, price, quantity, category)
+    const res = await updateBookAPI(values._id, newThumbnail, values.mainText, values.author, values.price, values.quantity, values.category)
 
 /*     const res = await updateBookAPI(id, newThumbnail, values.mainText, values.author, values.price, values.quantity, values.category)
  */    if (res.data) {
@@ -84,6 +86,8 @@ const UpdateBookFormUncontroll = (props) => {
       })
     }
     else {
+      console.log("check id error",values)
+
       notification.error({
         message: "error",
         description: JSON.stringify(res.data.error)
@@ -92,8 +96,9 @@ const UpdateBookFormUncontroll = (props) => {
   }
   //
 
-  const onFinish = async () => {
+  const onFinish = async (values) => {
     //không có ảnh preview + không có file => return
+    console.log("check values>>",values)
     if (!selectedFile && !preview) {
       await resetAndCloseModal()
       notification.error({
@@ -125,7 +130,7 @@ const UpdateBookFormUncontroll = (props) => {
     }
 
     //step 2: update book
-    await updateBook(newThumbnail);
+    await updateBook(newThumbnail,values);
   };
 
   return (
@@ -154,7 +159,6 @@ const UpdateBookFormUncontroll = (props) => {
               <Form.Item layout='vertical'
                 label="thumbnail"
                 name="thumbnail"
-
               >
                 <div style={{
                   marginTop: "10px",
@@ -163,7 +167,13 @@ const UpdateBookFormUncontroll = (props) => {
                 }}>
                   <img style={{ height: "100%", width: "100%", objectFit: "contain" }}
 
+                    //  src={`${import.meta.env.VITE_BACKEND_URL}/images/book/${dataUpdate.thumbnail}`
+
+
+
                     src={`${import.meta.env.VITE_BACKEND_URL}/images/book/${dataUpdate.thumbnail}`}
+
+
                   ></img>
                 </div>
                 <label htmlFor="btnUpload"
@@ -212,9 +222,9 @@ const UpdateBookFormUncontroll = (props) => {
               <Form.Item layout='vertical'
                 label="id"
                 name="_id"
-               
+
               >
-               <Input disabled />
+                <Input disabled />
               </Form.Item>
               <Form.Item layout='vertical'
                 label="mainText"
@@ -266,9 +276,6 @@ const UpdateBookFormUncontroll = (props) => {
 
                 <InputNumber style={{ width: 393 }} min={1} max={999999999999} defaultValue={0} />
               </Form.Item>
-
-
-
               <Form.Item
                 name="category"
                 label="Category"
@@ -299,10 +306,6 @@ const UpdateBookFormUncontroll = (props) => {
 
                 </Select>
               </Form.Item>
-
-
-
-
             </Col>
           </Row>
         </Form>
