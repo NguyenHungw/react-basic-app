@@ -47,7 +47,8 @@ const UpdateBookFormUncontroll = (props) => {
 
   useEffect(() => {
     if (dataUpdate) {
-      // console.log("check data update",dataUpdate)
+      
+      console.log("check data update",dataUpdate)
       //setId(dataUpdate._id)
       form.setFieldsValue({
         _id: dataUpdate._id,
@@ -64,8 +65,8 @@ const UpdateBookFormUncontroll = (props) => {
 
 
   }, [dataUpdate])
-  console.log("check preview", preview)
-  console.log("check dataUpdate.thumbnail>", dataUpdate.thumbnail)
+  //console.log("check preview", preview)
+  //console.log("check dataUpdate.thumbnail>", dataUpdate.thumbnail)
 
 
 
@@ -133,6 +134,7 @@ const UpdateBookFormUncontroll = (props) => {
     await updateBook(newThumbnail,values);
   };
 
+  //console.log( "check dataupdate.thumbnail",dataUpdate.thumbnail)
   return (
     <>
 
@@ -166,15 +168,18 @@ const UpdateBookFormUncontroll = (props) => {
                   border: "1px solid #ccc"
                 }}>
                   <img style={{ height: "100%", width: "100%", objectFit: "contain" }}
-
+                  
                     //  src={`${import.meta.env.VITE_BACKEND_URL}/images/book/${dataUpdate.thumbnail}`
+                    {...dataUpdate&&
+                    <>
+                      src={`${import.meta.env.VITE_BACKEND_URL}/images/book/${dataUpdate.thumbnail}`}
+                    </>
+                    }
+                  >
 
-
-
-                    src={`${import.meta.env.VITE_BACKEND_URL}/images/book/${dataUpdate.thumbnail}`}
-
-
-                  ></img>
+                    
+                  </img>
+                
                 </div>
                 <label htmlFor="btnUpload"
                   style={
